@@ -89,5 +89,15 @@ $(document).ready(function() {
     this.form.submit();
   });
 
+  // Hide and auto-populate subject on refund form
+  // see: https://gitlab.com/gitlab-com/support/support-team-meta/issues/1255
+  var ticketForm = location.search.split('ticket_form_id=')[1];
+
+  if(ticketForm == 360000258393 ) {
+
+      $('#request_subject').val('Refund Request');
+      $('.request_subject').hide()
+
+  }
 });
 
