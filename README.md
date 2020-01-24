@@ -18,7 +18,18 @@ After first time setup, if you want to change the subdomain to preview on the ot
 
 ### What do I do if the changes are good?
 
-- Push the changes to this repo with a MR for review
+- Push the changes to this repo with a MR for review.
+- After the MR is merged to master, a mirror update should trigger to the [ZD theme GitHub repository](https://github.com/GitLab-Support/zendesk-theme).
+- Sandbox is currently tied to `mink-GL` branch.
+- Production needs to be added and should use `master` branch.
+
+Note: The [GitHub theme integration](https://support.zendesk.com/hc/en-us/articles/360019965413) is currently set up via these accounts:
+
+- Sandbox: Arty-chan
+- Production: ?
+
+Manual theme update:
+
 - After the the MR is merged to master, zip the repository.
 - In Admin panel, [upload the repo as a new theme](https://support.zendesk.com/hc/en-us/articles/231747367-Changing-the-live-theme-of-your-Help-Center) and switch to it.
 
