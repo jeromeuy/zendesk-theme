@@ -1,96 +1,103 @@
-<nav class="sub-nav">
-  {{breadcrumbs}}
-  {{search}}
-</nav>
+<div class="container search-results-page">
+  <div class="container-inner">
+    <h1 class="search-results-count">{{t 'results' query=query count=results_count}}</h1>
 
-<div class="search-results">
+    <div class="row search-results clearfix">
+      <section class="column column--xs-12 {{#if help_center.community_enabled}}column--sm-6{{/if}} search-results-column">
+        <div class="search-results-subheading">
+          <h2 class="h3 search-results-subheading__title">{{t 'knowledge_base'}}</h2>
+        </div>
 
-  <h1>{{t 'results' query=query count=results_count}}</h1>
+        {{#if article_results}}
+          <ul class="list-unstyled search-results-list">
+            {{#each article_results}}
+              <li class="search-result">
+                <h3 class="h5 search-result__title">
+                <a href="{{url}}" class="search-result-link">{{title}}</a>
+                  {{#if vote_sum}}
+                    <span class="search-result-votes"><span class="fas fa-thumbs-up"></span> {{vote_sum}}</span>
+                  {{/if}}</h3>
 
-  <section class="search-results-column">
-    <h2 class="search-results-subheading">
-      {{t 'knowledge_base'}}
-    </h2>
-    {{#if article_results}}
-      <ul class="search-results-list">
-        {{#each article_results}}
-          <li class="search-result">
-            <a href="{{url}}" class="search-result-link">{{title}}</a>
-            {{#if vote_sum}}
-              <span class="search-result-votes">{{vote_sum}}</span>
-            {{/if}}
-            <ol class="breadcrumbs">
-              {{#each path_steps}}
-                <li title="{{name}}"><a href="{{url}}">{{name}}</a></li>
+                <ol class="breadcrumbs breadcrumbs--search-results">
+                  {{#each path_steps}}
+                    <li title="{{name}}"><a href="{{url}}">{{name}}</a></li>
+                  {{/each}}
+                </ol>
+                <p class="search-result__description">{{text}}</p>
+
+                <div class="meta search-result__meta">
+                    <span class="meta__item">
+                      {{#link "user_profile" id=author.id class="user-profile"}}
+                        {{author.name}}
+                      {{/link}}
+                    </span>
+                    <span class="meta__item">{{date created_at}}</span>
+                    <span class="meta__item">
+                      {{t 'comments_count' count=comment_count}}
+                    </span>
+                  </div>
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p>
+            {{t 'no_results' query=query}}
+            {{#link 'help_center'}}
+              {{t 'browse_knowledge_base'}}
+            {{/link}}
+          </p>
+        {{/if}}
+      </section>
+
+      {{#if help_center.community_enabled}}
+        <section class="column column--sm-6 search-results-column">
+          <div class="search-results-subheading">
+            <h2 class="h3 search-results-subheading__title">{{t 'community'}}</h2>
+          </div>
+
+          {{#if post_results}}
+            <ul class="list-unstyled search-results-list">
+              {{#each post_results}}
+                <li class="search-result">
+                  <h3 class="h5 search-result__title"><a href="{{url}}" class="search-result-link">{{title}}</a></h3>
+
+                  <ol class="breadcrumbs breadcrumbs--search-results">
+                    {{#each path_steps}}
+                      <li title="{{name}}"><a href="{{url}}">{{name}}</a></li>
+                    {{/each}}
+                  </ol>
+
+                  <p class="search-result__description">
+                    {{text}}
+                  </p>
+                  <div class="meta search-result__meta">
+                    <span class="meta__item">
+                      {{#link "user_profile" id=author.id class="user-profile"}}
+                        {{author.name}}
+                      {{/link}}
+                    </span>
+                    <span class="meta__item">{{date created_at}}</span>
+                    <span class="meta__item">
+                      {{t 'comments_count' count=comment_count}}
+                    </span>
+                  </div>
+                </li>
               {{/each}}
-            </ol>
-            <div class="search-result-description">
-              {{text}}
-            </div>
-            <div class="search-result-meta">
-              <span dir="auto" class="search-result-meta-name">
-                {{#link 'user_profile' id=author.id}}
-                  {{author.name}}
-                {{/link}}
-              </span>
-              <span class="search-result-meta-time">{{date created_at}}</span>
-            </div>
-          </li>
-        {{/each}}
-      </ul>
-    {{else}}
-      <p>
-        {{t 'no_results' query=query}}
-        {{#link 'help_center'}}
-          {{t 'browse_knowledge_base'}}
-        {{/link}}
-      </p>
-    {{/if}}
-  </section>
-
-  {{#if help_center.community_enabled}}
-    <section class="search-results-column">
-      <h2 class="search-results-subheading">
-        {{t 'community'}}
-      </h2>
-      {{#if post_results}}
-        <ul class="search-results-list">
-          {{#each post_results}}
-            <li class="search-result">
-              <a href="{{url}}" class="search-result-link">{{title}}</a>
-              <ol class="breadcrumbs">
-                {{#each path_steps}}
-                  <li title="{{name}}"><a href="{{url}}">{{name}}</a></li>
-                {{/each}}
-              </ol>
-              <div class="search-result-description">
-                {{text}}
-              </div>
-              <div class="search-result-meta">
-                <span dir="auto" class="search-result-meta-name">
-                  {{#link 'user_profile' id=author.id}}
-                    {{author.name}}
-                  {{/link}}
-                </span>
-                <span class="search-result-meta-time">{{date created_at}}</span>
-                <span class="search-result-meta-count">
-                  {{t 'comments_count' count=comment_count}}
-                </span>
-              </div>
-            </li>
-          {{/each}}
-        </ul>
-      {{else}}
-        <p>
-          {{t 'no_results' query=query}}
-          {{#link 'topics'}}
-            {{t 'browse_community'}}
-          {{/link}}
-        </p>
+            </ul>
+          {{else}}
+            <p>
+              {{t 'no_results' query=query}}
+              {{#link 'topics'}}
+                {{t 'browse_community'}}
+              {{/link}}
+            </p>
+          {{/if}}
+        </section>
       {{/if}}
-    </section>
-  {{/if}}
 
+    </div>
+    <div class="text-center">
+      {{pagination}}
+    </div>
+  </div>
 </div>
-
-{{pagination}}

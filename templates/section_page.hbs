@@ -1,37 +1,63 @@
-<nav class="sub-nav">
-  {{breadcrumbs}}
-  {{search}}
-</nav>
+<div class="container section-page">
+  <div class="container-inner">
+    <div class="row clearfix">
+  <div class="column column--sm-8">
+    {{breadcrumbs}}
+  </div>
+</div>
 
-<header class="page-header">
-  <h1>
-    {{#if section.internal}}
-      <span class="visibility-internal" data-title="{{t 'internal'}}">
-        <span class="visibility-internal-icon"></span>
-      </span>
-    {{/if}}
-    {{section.name}}
-  </h1>
-  <span>{{subscribe}}</span>
-</header>
 
-<p>{{section.description}}</p>
+    <div class="page-header page-header--center">
+      <div class="section-header">
+        <div class="section-header__col section-header__col--main">
+          <h1 class="h2 section-title">
+            {{#if section.internal}}
+              <span class="fas fa-lock" title="{{t 'internal'}}"></span>
+            {{/if}}
+            {{section.name}}
+          </h1>
 
-{{#if section.articles}}
-  <ul class="article-list">
-    {{#each section.articles}}
-      <li {{#if promoted}} class="article-promoted" {{/if}}>
-        {{#if promoted}}
-          <span data-title="{{t 'promoted'}}">★</span>
+          {{#if section.description}}
+          <p class="page-description">{{section.description}}</p>
+          {{/if}}
+        </div>
+        {{#if settings.show_follow_section}}
+          <div class="section-header__col section-header__col--button">
+            {{subscribe}}
+          </div>
         {{/if}}
-        <a href="{{url}}">{{title}}</a>
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <i class="section-empty">
-    <a href="{{section.url}}">{{t 'empty'}}</a>
-  </i>
-{{/if}}
+      </div>
+    </div>
 
-{{pagination}}
+    {{#if section.sections}}
+      <ul class="row section-list">
+        {{#each section.sections}}
+          <li class="column column column--sm-6 column--md-3 section-list-item">
+            <a class="section-list-item__link" href="{{url}}">
+              <h2 class="h5 section-list-item__title">{{name}}</h2>
+              <p class="meta">{{description}}</p>
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+
+    {{#if section.articles}}
+      <ul class="article-list article-list--section">
+        {{#each section.articles}}
+          <li class="article-list-item {{#if promoted}}article-list-item--is-promoted{{/if}}" >
+  {{#if promoted}}
+    <span class="fas fa-star" title="{{t 'promoted'}}"></span>
+  {{/if}}
+  <a class="article-list-item__link" href="{{url}}">{{title}}</a>
+</li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p><i><a href="{{section.url}}">{{t 'empty'}}</a></i></p>
+    {{/if}}
+
+
+    {{pagination}}
+  </div>
+</div>

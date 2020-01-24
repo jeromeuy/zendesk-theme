@@ -1,62 +1,47 @@
-<header class="my-activities-header">
-  {{breadcrumbs}}
+<div class="container my-activities-page">
+  <div class="container-inner">
+    <header class="my-activities-header">
+  <h1 class="h2">{{t 'my_activities' }}</h1>
 </header>
 
-<nav class="my-activities-nav nav-bordered">
-  <ul>
-    {{#if help_center.request_management_enabled}}
-      <li>{{link 'requests'}}</li>
+    <nav class="my-activities-menu my-activities-menu--main">
+      <ul class="my-activities-menu__items clearfix">
+        {{#if help_center.request_management_enabled}}
+          <li class="my-activities-menu__item">{{link 'requests'}}</li>
+        {{/if}}
+        <li class="my-activities-menu__item">{{link 'contributions'}}</li>
+        <li class="my-activities-menu__item is-active">{{t 'following'}}</li>
+      </ul>
+    </nav>
+
+    {{#if subscriptions}}
+      <div class="my-activities-items">
+        <div class="my-activities-items__head">
+          <div class="my-activities-items__row">
+            <div class="my-activities-items__col">{{t 'title'}}</div>
+            <div class="my-activities-items__col">{{t 'type'}}</div>
+            <div class="my-activities-items__col">{{t 'subscription'}}</div>
+            <div class="my-activities-items__col">&nbsp;</div>
+          </div>
+        </div>
+        <div class="my-activities-items__body">
+          {{#each subscriptions}}
+            <div class="my-activities-items__row my-activities-item">
+              <div class="my-activities-items__col">
+                <a class="my-activities-item__title" href="{{url}}">
+                  {{excerpt title characters=60}}
+                </a>
+              </div>
+              <div class="my-activities-items__col my-activities-item__meta">{{name}}</div>
+              <div class="my-activities-items__col my-activities-item__meta">{{unsubscribe}}</div>
+              <div class="my-activities-items__col my-activities-item__meta">{{subscribe}}</div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+      {{pagination}}
+    {{else}}
+      <p>{{t 'not_following'}}</p>
     {{/if}}
-    <li>{{link 'contributions'}}</li>
-    <li>{{t 'following'}}</li>
-  </ul>
-</nav>
-
-<div class="my-activities-following-header">
-  <span class="dropdown">
-    <span class="dropdown-toggle">
-      {{current_filter.label}}
-    </span>
-    <span class="dropdown-menu" role="menu">
-      {{#each filters}}
-        <a href="{{url}}" aria-selected="{{selected}}" role="menuitem">
-          {{name}}
-        </a>
-      {{/each}}
-    </span>
-  </span>
-</div>
-
-<div class="my-activities-table">
-  {{#if subscriptions}}
-    <table>
-      <thead>
-        <tr>
-          <th>{{t 'title'}}</th>
-          <th>{{t 'type'}}</th>
-          <th>{{t 'subscription'}}</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each subscriptions}}
-          <tr>
-            <td>
-              {{#is type 'user'}}
-                <img class="user-avatar" src="{{avatar_url}}" alt="Avatar">
-              {{/is}}
-              <a href="{{url}}" title="{{title}}">{{excerpt title characters=60}}</a>
-            </td>
-            <td>{{name}}</td>
-            <td>{{subscribe}}</td>
-            <td>{{unsubscribe}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-
-  {{pagination}}
-  {{else}}
-    <p>{{t 'not_following'}}</p>
-  {{/if}}
+  </div>
 </div>

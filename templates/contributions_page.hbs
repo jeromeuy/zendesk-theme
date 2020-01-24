@@ -1,62 +1,63 @@
-<header class="my-activities-header">
-  {{breadcrumbs}}
+<div class="container my-activities-page">
+  <div class="container-inner">
+    <header class="my-activities-header">
+  <h1 class="h2">{{t 'my_activities' }}</h1>
 </header>
 
-<nav class="my-activities-nav nav-bordered">
-  <ul>
-    {{#if help_center.request_management_enabled}}
-      <li>{{link 'requests'}}</li>
-    {{/if}}
-    <li>{{t 'contributions'}}</li>
-    <li>{{link 'subscriptions'}}</li>
-  </ul>
-</nav>
-
-<nav class="my-activities-sub-nav nav-spaced">
-  <ul>
-    {{#each filters}}
-      <li>
-        {{#if selected}}
-          {{name}}
-        {{else}}
-          <a href="{{url}}">{{name}}</a>
+    <nav class="my-activities-menu my-activities-menu--main">
+      <ul class="my-activities-menu__items clearfix">
+        {{#if help_center.request_management_enabled}}
+          <li class="my-activities-menu__item">{{link 'requests'}}</li>
         {{/if}}
-      </li>
-    {{/each}}
-  </ul>
-</nav>
+        <li class="my-activities-menu__item is-active">{{t 'contributions'}}</li>
+        <li class="my-activities-menu__item">{{link 'subscriptions'}}</li>
+      </ul>
+    </nav>
 
-<div class="my-activities-table">
-  {{#if contributions}}
-    <table>
-      <thead>
-        <tr>
-          <th>{{t 'title'}}</th>
-          <th>{{t 'type'}}</th>
-          <th>{{t 'vote_sum'}}</th>
-          <th>{{t 'last_activity'}}</th>
-          <th>{{t 'created'}}</th>
-        </tr>
-      </thead>
-      <tbody>
+    <nav class="my-activities-menu my-activities-menu--sub">
+     <ul class="my-activities-menu__items clearfix">
+        {{#each filters}}
+          <li class="my-activities-menu__item {{#if selected}} is-active {{/if}}">
+            {{#if selected}}
+              {{name}}
+            {{else}}
+              <a href="{{url}}">{{name}}</a>
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+    </nav>
+
+    {{#if contributions}}
+    <div class="my-activities-items">
+      <div class="my-activities-items__head">
+        <div class="my-activities-items__row">
+          <div class="my-activities-items__col">{{t 'title'}}</div>
+          <div class="my-activities-items__col">{{t 'vote_sum'}}</div>
+          <div class="my-activities-items__col">{{t 'last_activity'}}</div>
+          <div class="my-activities-items__col">{{t 'created'}}</div>
+        </div>
+      </div>
+      <div class="my-activities-items__body">
         {{#each contributions}}
-          <tr>
-            <td>
-              <a href="{{url}}">
+          <div class="my-activities-items__row my-activities-item">
+            <div class="my-activities-items__col">
+              <a class="my-activities-item__title" href="{{url}}">
                 {{excerpt title characters=60}}
               </a>
-            </td>
-            <td>{{type}}</td>
-            <td>{{vote_sum}}</td>
-            <td>{{date last_activity_at}}</td>
-            <td>{{date created_at}}</td>
-          </tr>
+            </div>
+            <div class="my-activities-items__col my-activities-item__meta">
+              <span class="fas fa-thumbs-up my-activities-item__icon"></span> {{vote_sum}}
+            </div>
+            <div class="my-activities-items__col my-activities-item__meta">{{date last_activity_at}}</div>
+            <div class="my-activities-items__col my-activities-item__meta">{{date created_at}}</div>
+          </div>
         {{/each}}
-      </tbody>
-    </table>
-  {{else}}
-    {{t 'no_contributions'}}
-  {{/if}}
-
-  {{pagination}}
+      </div>
+    </div>
+      {{pagination}}
+    {{else}}
+      <p>{{t 'no_contributions'}}</p>
+    {{/if}}
+  </div>
 </div>
